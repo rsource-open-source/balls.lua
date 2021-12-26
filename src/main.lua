@@ -1,1 +1,6 @@
-print('balls.lua, a simplistic Lua library for interacting with the StrafesNET API.')
+local j = require('utils')
+
+print('Hello World')
+j.utils:request('http://www.google.com', function(req)
+	print(req)
+end)
