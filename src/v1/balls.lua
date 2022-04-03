@@ -1,11 +1,23 @@
-local Err = require('src.utils').Err
-local Ok = require('src.utils').Ok
+local u = require('./../utils')
+-- local Err = u.Err
+-- local Ok = u.Ok
+-- local printTable = u.printTable
 
 -- selene: allow(unscoped_variables)
 balls = {}
+balls.__index = balls
 
 balls.new = function(key)
-	if key == nil then
-		return Err('')
-	end
+	assert(type(key) == 'string', 'key must be a string')
+	local instance = setmetatable({}, balls)
+	instance.key = key
+	return instance
 end
+
+function balls:base_function()
+	return 's'
+end
+
+local j = balls.new('asda'):base_function()
+
+print(j)
