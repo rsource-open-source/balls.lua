@@ -9,4 +9,6 @@
 
 # balls.lua
 
-A simplistic Lua library for interacting with the StrafesNET API.
+A simplistic Lua library for interacting with the StrafesNET API. Runs on Luvit.
+
+See the wiki for documentation and usage.
