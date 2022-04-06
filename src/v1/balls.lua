@@ -1,18 +1,32 @@
--- local u = require('src.utils')
-local c = require('src.constants')
+local c = require('../constants')
+local u = require('../utils')
 
 -- selene: allow(unscoped_variables)
 balls = {}
-balls.__index = balls
 
----@param key string
+---@param init string
 -- Sets the api key for the client.
-balls.new = function(key)
-	assert(type(key) == 'string', 'parameter must be a string')
-	local instance = setmetatable({}, balls)
-	instance.key = key
-	instance.header = c[2].insert_header(instance, key)
-	return instance
+balls.new = function(init)
+	-- assert(type(init) == 'string', 'parameter must be a string')
+
+	local self = {
+		token = init,
+		header = { { 'Content-Type', 'application/json' }, { 'api-key', init } },
+	}
+
+	local v1 = {
+
+		url = c.API_URL .. '/v1',
+
+		raw = function(path)
+			return u.request(c.API_URL .. path, self.header)
+			-- return self.header, path
+		end,
+	}
+
+	return {
+		v1 = v1,
+	}
 end
 
-print(balls.new('asdas').header)
+-- print(u.table_to_string(balls.new('FAKE_API_KEY').v1.raw('s')))
