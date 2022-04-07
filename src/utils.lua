@@ -2,8 +2,8 @@ local http = require('http')
 local json = require('json')
 
 -- stylua: ignore start
-function Err(err)	return err, nil end
-function Ok(res) return nil, res end
+function Err(err) return err, nil end
+function Ok(res)  return nil, res end
 -- stylua: ignore end
 
 ---@param tb table
