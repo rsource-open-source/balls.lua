@@ -1,4 +1,4 @@
-local http = require('http')
+local http = require('coro-http')
 local json = require('json')
 
 -- stylua: ignore start
@@ -8,7 +8,7 @@ function Ok(res)  return nil, res end
 
 ---@param tb table
 ---@return string
-function parseToURLArgs(tb)
+function parse_to_url_args(tb)
 	-- stylua: ignore
 	if not tb then return Err('got nothing') end
 	-- stylua: ignore
@@ -31,8 +31,8 @@ end
 ---@param headers table
 ---@param params string
 function request(method, url, headers, params)
-	local _, body = http.request(method, url, headers, params)
-	return json.decode(body)
+	local res, body = http.request(method, url, headers, params)
+	return res, json.decode(body)
 end
 
 -- https://gist.github.com/justnom/9816256
@@ -41,7 +41,7 @@ function table_to_string(tbl)
 	local result = '{'
 	for k, v in pairs(tbl) do
 		-- Check the key type (ignore any numerical keys - assume its an array)
-		if type(k) == 'string' then
+		if type(k) == 'string' then -- head hurt i stop reading text sorry i will still answer discord if there is anything jajaja
 			result = result .. '["' .. k .. '"]' .. '='
 		end
 
@@ -63,7 +63,7 @@ function table_to_string(tbl)
 end
 
 return {
-	parseToURLArgs = parseToURLArgs,
+	parse_to_url_args = parse_to_url_args,
 	Err = Err,
 	Ok = Ok,
 	request = request,

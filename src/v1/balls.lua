@@ -1,12 +1,14 @@
 local c = require('../constants')
 local u = require('../utils')
+local coro = require('coro-http')
+-- testing
+local envkey = require('../../env.lua')
 
--- selene: allow(unscoped_variables)
 balls = {}
 
 ---@param init string
 -- Sets the api key for the client.
-balls.new = function(init)
+balls.client = function(init)
 	-- assert(type(init) == 'string', 'parameter must be a string')
 
 	local self = {
@@ -14,13 +16,15 @@ balls.new = function(init)
 		header = { { 'Content-Type', 'application/json' }, { 'api-key', init } },
 	}
 
-	local v1 = {
+	v1 = {
 
 		url = c.API_URL .. '/v1',
 
+		---@param path string
+		---@type table
 		raw = function(path)
-			return u.request(c.API_URL .. path, self.header)
-			-- return self.header, path
+			return u.request('GET', v1.url .. path, self.header, '')
+			-- return coro.request('GET', v1.url .. path, self.header, '')
 		end,
 	}
 
@@ -29,4 +33,4 @@ balls.new = function(init)
 	}
 end
 
--- print(u.table_to_string(balls.new('FAKE_API_KEY').v1.raw('s')))
+print(balls.client(envkey).v1.raw('/time/recent'))

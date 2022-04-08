@@ -12,3 +12,11 @@
 A simplistic Lua library for interacting with the StrafesNET API. Runs on Luvit.
 
 See the wiki for documentation and usage.
+
+This library depends [`creationix/coro-http`](https://github.com/creationix/luv-coro-http) and [`luvit/secure-socket`](), using the luvit/lit toolchain, you can install it by running the following:
+
+```
+lit install creationix/coro-http
+lit install luvit/secure-socket
+lit install luvit/json
+```

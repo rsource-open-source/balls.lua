@@ -2,3 +2,4 @@ std = "lua52"
 
 [rules]
 multiple_statements = "allow"
+unscoped_variables = "allow "
