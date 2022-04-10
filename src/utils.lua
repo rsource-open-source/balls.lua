@@ -1,5 +1,5 @@
 local http = require('coro-http')
-local json = require('json')
+-- local json = require('json')
 
 -- stylua: ignore start
 function Err(err) return err, nil end
@@ -26,14 +26,23 @@ function parse_to_url_args(tb)
 	return Ok(str)
 end
 
+-- Must be ran inside a coroutine
 ---@param method string
 ---@param url string
 ---@param headers table
 ---@param params string
 function request(method, url, headers, params)
+	-- return coroutine.resume(coroutine.create(function()
 	local res, body = http.request(method, url, headers, params)
-	return res, json.decode(body)
+	return res, body
+	-- end))
 end
+-- function request(method, url, headers, params)
+-- 	return coroutine.create(function()
+-- 		local res, body = http.request(method, url, headers, params)
+-- 		return res, json.decode(body)
+-- 	end)
+-- end
 
 -- https://gist.github.com/justnom/9816256
 -- Convert a lua table into a lua syntactically correct string

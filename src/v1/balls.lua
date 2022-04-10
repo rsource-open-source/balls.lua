@@ -1,6 +1,5 @@
 local c = require('../constants')
 local u = require('../utils')
-local coro = require('coro-http')
 -- testing
 local envkey = require('../../env.lua')
 
@@ -23,7 +22,7 @@ balls.client = function(init)
 		---@param path string
 		---@type table
 		raw = function(path)
-			return u.request('GET', v1.url .. path, self.header, '')
+			return coroutine.create(u.request('GET', v1.url .. path, self.header, '')) -- ('GET', v1.url .. path, self.header, '')
 			-- return coro.request('GET', v1.url .. path, self.header, '')
 		end,
 	}
